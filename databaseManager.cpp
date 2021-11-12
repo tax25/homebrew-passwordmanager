@@ -56,7 +56,7 @@ private:
     + quoteSql(date) + ","
     + quoteSql(webSiteOrAppName) + ","
     + quoteSql(password) + ")";
-    cout << sqlInsertStatement << endl;
+    // cout << sqlInsertStatement << endl;
     return sqlInsertStatement;
   }
 
@@ -124,7 +124,7 @@ public:
   }
 
   bool save(){
-    cout << webSiteOrAppName << "\t" << password << endl;
+    // cout << webSiteOrAppName << "\t" << password << endl;
     // connecting to/creating db
     sqlite3 *database;
     sqlite3_stmt *stmt;
@@ -132,21 +132,20 @@ public:
 
     string recordDate;
     string sqlStatement = createSqlInsertStatement();
-    string secondSqlStatement = "INSERT INTO PASSWORDS VALUES('8-11-2021', 'apple.com', 'questaeunapwd')";
 
     bool error;
 
     exit = sqlite3_open(dbName.c_str(), &database);
     if(exit != SQLITE_OK){
-      cerr << "errore nell'apertura del db :(" << endl;
+      cerr << "Errore nell'apertura del db :(" << endl;
     }else{
       // cout << "DB aperto correttamente" << endl;
     }
 
     recordDate = getDate();
-    cout << recordDate << endl;
-    cout << sqlStatement << endl;
-    cout << secondSqlStatement << endl;
+    // cout << recordDate << endl;
+    // cout << sqlStatement << endl;
+    // cout << secondSqlStatement << endl;
     // cout << "All saved!" << endl;
 
     char *errorMessage;
@@ -232,9 +231,9 @@ public:
     }else{
       // cout << "db aperto correttamente" << endl;
     }
-    cout << name << endl;
-    cout << newPassword << endl;
-    cout << sqlUpdateStatement << endl;
+    // cout << name << endl;
+    // cout << newPassword << endl;
+    // cout << sqlUpdateStatement << endl;
 
     exit = sqlite3_exec(database, sqlUpdateStatement.c_str(), NULL, 0, &errorMessage);
     if (exit != SQLITE_OK){

@@ -28,9 +28,9 @@ int main(){
                             "WEBSITEORAPP TEXT, "
                             "PASSWORD TEXT );";
   errorCreatingTable = dbManager.createTable(createTableSqlStatement);
-
+  system("clear");
   if (errorCreatingTable){
-    cerr << "errore nella creazione della tabella" << endl;
+    cerr << "Errore nella creazione della tabella" << endl;
   }else{
     // cout << "creazione tabella eseguita con successo" << endl;
   }
@@ -147,6 +147,7 @@ int main(){
         cout << "--------------------------" << endl;
         char yes;
         cout << "Vuoi salvare la password nel database? y/N" << endl;
+
         cin >> yes;
         if(yes == 'y'){
           dbManager.setWebSiteOrAppName(webAppPwdFor);
@@ -183,6 +184,7 @@ int main(){
       cin >> webAppPwdFor;
       cout << "Inserisci la nuova password (Se vuoi che ne crei un'altra, scrivi new)" << endl;
       cin >> newPassword;
+
       if (newPassword.compare("new") == 0){
         cout << "Quanto deve essere lunga la password?" << endl;
         cin >> passwordLenght;
@@ -269,6 +271,7 @@ int main(){
         }
         char yes;
         cout << "Vuoi aggiornare la password? y/N" << endl;
+
         cin >> yes;
         if (yes == 'y'){
           dbManager.updatePassword(webAppPwdFor, generatedPassword);
@@ -278,18 +281,36 @@ int main(){
           while(true){
             cout << "Devi inserire y o N" << endl;
             cin >> yes;
-            if (yes == 'y' || yes == 'n'){
+            if (yes == 'y' || yes == 'N'){
               break;
             }
           }
         }
-      } /*if choice == 3*/
-    }
+      }else{
+        char yes;
+        cout << "Vuoi aggiornare la password? y/N" << endl;
+        cin >> yes;
+        if (yes == 'y'){
+          dbManager.updatePassword(webAppPwdFor, newPassword);
+        }else if (yes == 'N'){
+          // do nothing
+        }else{
+          while(true){
+            cout << "Devi inserire y o N" << endl;
+            cin >> yes;
+            if (yes == 'y' || yes == 'N'){
+              break;
+            }
+          }
+        }
+      }
+    } /*if choice == 3*/
     cout << "Desideri fare qualche altra operazione? y/N" << endl;
     cin >> wishToContinue;
     if ((wishToContinue != 'y')|| (wishToContinue != 'N')){
       while(true){
         cout << "Devi inserire y o N" << endl;
+        cin.clear();
         cin >> wishToContinue;
         if ((wishToContinue == 'y')||(wishToContinue == 'N')){
           break;
