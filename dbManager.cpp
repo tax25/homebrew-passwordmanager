@@ -61,7 +61,7 @@ std::string DbManager::createSqlQueryStatement(int nameOrDate, std::string param
   std::string sqlQueryStatement;
 
   if(nameOrDate == 1){
-    sqlQueryStatement = "SELECT * FROM PASSWORDS WHERE WEBSITEORAPP = '" + std::string(parameters) + "'";
+    sqlQueryStatement = "SELECT * FROM PASSWORDS WHERE WEBSITEORAPPNAME = '" + std::string(parameters) + "'";
   }else{
     sqlQueryStatement = "SELECT * FROM PASSWORDS WHERE DATEOFRECORD = '" + std::string(parameters) + "'";
   }
@@ -194,16 +194,18 @@ void DbManager::readDB(int nameOrDate, std::string parameters){
   int exit = 0;
   exit = sqlite3_open(dbName.c_str(), &database);
   if(exit != SQLITE_OK){
-    std::cout << "Couldn't open db while trying to read it" << "\n";
+    std::cout << "Couldn't open db while trying to open it" << "\n";
     sqlite3_free(errorMessage);
   }
-
+  
   sqlQueryStatement = createSqlQueryStatement(nameOrDate, parameters);
 
   exit = sqlite3_exec(database, sqlQueryStatement.c_str(), callback, NULL, &errorMessage);
-  std::cout << parameters << "\n";
+
   if(exit != SQLITE_OK){
     std::cout << "Something went wrong during db reading" << "\n";
+    std::cout << errorMessage << "\n";
+    sqlite3_free(errorMessage);
   }
 }
 
@@ -218,6 +220,7 @@ bool DbManager::updatePassword(std::string name, std::string newPassword){
   std::string sqlUpdateStatement = createSqlUpdateStatement(name, newPassword);
 
   exit = sqlite3_open(dbName.c_str(), &database);
+
   if(exit != SQLITE_OK){
     std::cerr << "Error occured while trying to open db to update it" << "\n";
     error = true;
