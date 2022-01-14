@@ -76,7 +76,7 @@ private:
   string createSqlUpdateStatement(string name, string newPwd){
     string sqlStatement;
 
-    sqlStatement = "UPDATE PASSWORDS SET PASSWORD = '" + string(newPwd) + "'" + " WHERE WEBSITEORAPP = '" + string(name) + "'";;
+    sqlStatement = "UPDATE PASSWORDS SET PASSWORD = '" + string(newPwd) + "'" + " WHERE WEBSITEORAPP = '" + string(name) + "'";
 
     return sqlStatement;
   }
@@ -214,6 +214,7 @@ public:
       */
     }
 
+    // there's no return statement because to print the results of the research we use the callback method
   }
 
   bool updatePassword(string name, string newPassword){
