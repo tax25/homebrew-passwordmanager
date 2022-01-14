@@ -3,7 +3,7 @@ class Passwordmanager < Formula
   homepage "https://github.com/tax25/homebrew-passwordmanager"
   url ""
   url "https://github.com/tax25/homebrew-passwordmanager/releases/download/v1.1.0/passwordmanager-mac.tar.gz"
-  sha256 "bcb88169681052ffd66395b1267ddd09d105f4dcbd2a3f6762e5662ba7f4c992"
+  sha256 "2d8ea3dc3a5f302a807e7f63351b74b296a420035890d3b165b0daaa4285fc72"
   version "1.1.0"
 
   def install
