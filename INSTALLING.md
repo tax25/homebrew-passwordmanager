@@ -7,10 +7,10 @@ So installing passwordmanager on mac is really easy, we use homebrew. [Here to h
 
 You just have to: 
 
-'''
+  ```
 
 brew tap tax25/homebrew-passwordmanager
 brew install passwordmanager
 
-'''
+```
 
