@@ -1,16 +1,37 @@
 # Installing passwordmanager
 
-As of today passwordmanager is only available for macOS, which goes against what said in the README that this is for terminal-only OSs. But it's still in development and I still need to make a lot of experience, but it will be available 
-even for linux in the near future. 
+As of today passwordmanager is available for macOS and linux. 
 
-So installing passwordmanager on mac is really easy, we use homebrew. [Here to how to install Homebrew](https://docs.brew.sh/Installation)
+## Installation on macOS
+
+Installing passwordmanager on mac is really easy, we use homebrew. [Here to how to install Homebrew](https://docs.brew.sh/Installation)
 
 You just have to: 
 
-  ```
+```
 
 brew tap tax25/homebrew-passwordmanager
 brew install passwordmanager
 
 ```
 
+## Installation on linux
+
+Since linux has so many distros and package managers, and making passwordmanager available for every one of them would be quite a struggle (at least with the experience i have now), I decided to create a make file
+so that you can compile passwordmanager for you machine and then install it. It is a really basic Makefile and probably the installation process is as wrong as it can be, if you know how to do it better, please tell me!
+So, to compile and install passwordmanager for your machine you have to:
+
+```
+// clone the repo
+$ git clone --recursive https://github.com/tax25/homebrew-passwordmanager.git
+
+// cd into the directory
+$ cd homebrew-passwordmanager
+
+// compile it (be sure to have make installed)
+$ make
+
+// install passwordmanager
+$ sudo make install 
+
+```
