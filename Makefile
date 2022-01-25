@@ -3,7 +3,7 @@ CC = g++
 CFLAGS = -lsqlite3
 
 all:
-	$(CC) $(CFLAGS) main.cpp dbManager.cpp -o pwdManager
+	$(CC) main.cpp dbManager.cpp -o pwdManager $(CFLAGS)
 
 install:
 	sudo cp pwdManager /usr/local/bin
