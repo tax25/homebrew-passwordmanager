@@ -35,3 +35,10 @@ $ make
 $ sudo make install 
 
 ```
+
+If you get an error and it's something like "cannot find -lsqlite3" try installing sqlite3 and libsqlite3-dev. 
+
+```
+sudo apt-get install sqlite3 libsqlite3-dev
+
+```
