@@ -22,8 +22,8 @@ std::string DbManager::getDate(){
   ss >> giornoDelMese;
   ss.clear();
 
-  ss << dayOfMonth;
-  ss >> giornoDelMese;
+  ss << month;
+  ss >> mese;
   ss.clear();
 
   ss << year;

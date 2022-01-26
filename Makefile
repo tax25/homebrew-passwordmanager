@@ -7,6 +7,7 @@ all:
 
 install:
 	sudo cp pwdManager /usr/local/bin
+	rm pwdManager
 
 clean:
-	sudo rm -r usr/local/bin/pwdManager
+	sudo rm usr/local/bin/pwdManager

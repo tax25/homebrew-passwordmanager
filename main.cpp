@@ -5,6 +5,27 @@
 std::string generatePassword(int pwdLenght, bool nums, bool specialChars, bool alphaNumericalChars);
 char selectCharacterFromString(std::string stringToUse);
 
+#define MIN_PWD_LENGHT 7
+
+enum ContinueOrNot{
+  CONFIRMED = 'y', 
+  DECLINED = 'N'
+}; 
+
+enum MainMenuChoices{
+  MM_CREATE_PASSWORD = 1,
+  MM_SEARCH_PASSWORD = 2, 
+  MM_UPDATE_PASSWORD = 3
+};
+
+enum SearchPwdChoices{
+  SP_THROUGH_NAME = 1,
+  SP_THROUGH_DATE = 2
+};
+
+enum UpdatePwdChoices{
+
+};
 int main(){
 
   srand(time(0));
@@ -27,9 +48,8 @@ int main(){
   bool numbers, specialCharacters, alphaNumericalChars;
   bool errorCreatingTable;
 
-  char wishToContinue = 'y';
+  char wishToContinue = CONFIRMED;
 
-  // Create table with this statement:
   createTableSqlStatement = "CREATE TABLE IF NOT EXISTS PASSWORDS("
                             "DATEOFRECORD DATE, "
                             "WEBSITEORAPPNAME TEXT, "
@@ -41,7 +61,7 @@ int main(){
     std::cerr << "Errore nella creazione della tabella del database" << "\n";
   }
 
-  while(wishToContinue == 'y'){
+  while(wishToContinue == CONFIRMED){
 
     std::cout << "--------------------------" << "\n";
     std::cout << "Generatore di Password" << "\n";
@@ -52,16 +72,16 @@ int main(){
     std::cout << "(3) Cambiare una password" << "\n";
     std::cin >> choice;
 
-    while((choice < 1)||(choice > 3)){
+    while((choice < MM_CREATE_PASSWORD) || (choice > MM_UPDATE_PASSWORD)){
       std::cout << "Scelta errata, inscerisci un numero compreso tra le scelte" << "\n";
       std::cin >> choice;
     }
 
-    if (choice == 1){
+    if (choice == MM_CREATE_PASSWORD){
       std::cout << "Quanto deve essere lunga la password?" << "\n";
       std::cin >> passwordLenght;
 
-      while(passwordLenght < 7){
+      while(passwordLenght < MIN_PWD_LENGHT){
         std::cout << "La password sarebbe troppo corta, inserisci una lunghezza maggiore" << "\n";
         std::cin >> passwordLenght;
       }
@@ -73,16 +93,16 @@ int main(){
       std::cout << "Se vuoi che vengano inclusi tutti nella password, inserisci x" << "\n";
       std::cout << "Altrimenti inserisci c per creare una password custom" << "\n";
       std::cin >> customPassword;
-      if ((customPassword == 'x')||(customPassword == 'c')){
-        // do nothing
-      }else{
+      
+      if((customPassword != 'x') && (customPassword != 'c')){
+        
         while(true){
           std::cout << "Devi inserire x o c" << "\n";
           std::cin >> customPassword;
           if ((customPassword == 'x')||(customPassword == 'c')){
             break;
           }
-        }
+        }  
       }
 
       if (customPassword == 'x'){
@@ -95,7 +115,7 @@ int main(){
         char yes;
 
         std::cin >> yes;
-        if (yes == 'y'){
+        if (yes == CONFIRMED){
           dbManager.setWebSiteOrAppName(webAppPwdFor);
           dbManager.setPassword(generatedPassword);
           dbManager.save();
@@ -104,10 +124,9 @@ int main(){
 
         std::cout << "Vuoi i numeri? (0/1)" << "\n";
         std::cin >> numbers;
+        
+        if((numbers != true) && (numbers != false)){
 
-        if ((numbers == true)||(numbers == false)){
-          // do nothing
-        }else{
           while(true){
             std::cout << "Devi inserire 0 o 1" << "\n";
             std::cin >> numbers;
@@ -115,14 +134,14 @@ int main(){
               break;
             }
           }
+        
         }
-
+        
         std::cout << "Vuoi i caratteri speciali?" << "\n";
         std::cin >> specialCharacters;
-
-        if ((specialCharacters == true)||(specialCharacters == false)){
-          // do nothing
-        }else{
+                
+        if((specialCharacters != true) && (specialCharacters != false)){
+          
           while(true){
             std::cout << "Devi inserire 0 o 1" << "\n";
             std::cin >> specialCharacters;
@@ -130,14 +149,14 @@ int main(){
               break;
             }
           }
+        
         }
 
         std::cout << "Vuoi i caratteri alfaNumerici?" << "\n";
         std::cin >> alphaNumericalChars;
+        
+        if((alphaNumericalChars != true) && (alphaNumericalChars != false)){
 
-        if ((alphaNumericalChars == true)||(alphaNumericalChars == false)){
-          // do nothing
-        }else{
           while(true){
             std::cout << "Devi inserire 0 o 1" << "\n";
             std::cin >> alphaNumericalChars;
@@ -155,13 +174,13 @@ int main(){
         std::cout << "Vuoi salvare la password nel database? y/N" << "\n";
 
         std::cin >> yes;
-        if(yes == 'y'){
+        if(yes == CONFIRMED){
           dbManager.setWebSiteOrAppName(webAppPwdFor);
           dbManager.setPassword(generatedPassword);
           dbManager.save();
         }
       }
-    } /*if choice == 1*/ else if(choice == 2){
+    } /*if choice == MM_CREATE_PASSWORD*/ else if(choice == MM_SEARCH_PASSWORD){
       std::cout << "Come vuoi cercare la password?" << "\n";
       std::cout << "(1) Per nome del sito / app" << "\n";
       std::cout << "(2) Per data di creazione" << "\n";
@@ -169,23 +188,23 @@ int main(){
       int mode;
       std::cin >> mode;
 
-      while((mode < 1)||(mode > 2)){
+      while((mode < SP_THROUGH_NAME) || (mode > SP_THROUGH_DATE)){
         std::cout << "Scelta errata, inscerisci un numero compreso tra le scelte" << "\n";
         std::cin >> mode;
       }
 
-      if (mode == 1){
+      if (mode == SP_THROUGH_NAME){
         std::cout << "Ok, inserisci il nome del sito o app (nel caso del sito, inserisci anche il .com/it ecc...)" << "\n";
         std::cin >> webAppPwdFor;
         dbManager.readDB(mode, webAppPwdFor);
-      }else if (mode == 2){
+      }else if (mode == SP_THROUGH_DATE){
         std::cout << "Ok, inserisci la data di creazione della password, in questo modo dd-mm-yy" << "\n";
         std::string dateOfCreation;
         std::cin >> dateOfCreation;
         dbManager.readDB(mode, dateOfCreation);
       }
 
-    }/*if choice == 2*/ else{
+    }/*if choice == MM_SEARCH_PASSWORD*/ else{ // if choice == MM_UPDATE_PASSWORD
       std::cout << "Di quale sito o app vuoi cambiare la password? (nel caso dei siti, inserisci anche .com/it ecc...)" << "\n";
       std::cin >> webAppPwdFor;
       std::cout << "Inserisci la nuova password (Se vuoi che ne crei un'altra, scrivi new)" << "\n";
@@ -195,7 +214,7 @@ int main(){
         std::cout << "Quanto deve essere lunga la password?" << "\n";
         std::cin >> passwordLenght;
 
-        while(passwordLenght < 7){
+        while(passwordLenght < MIN_PWD_LENGHT){
           std::cout << "La password sarebbe troppo corta, inserisci una lunghezza maggiore" << "\n";
           std::cin >> passwordLenght;
         }
@@ -204,9 +223,9 @@ int main(){
         std::cout << "Se vuoi che vengano inclusi tutti nella password, inserisci x" << "\n";
         std::cout << "Altrimenti inserisci c per creare una password custom" << "\n";
         std::cin >> customPassword;
-        if ((customPassword == 'x')||(customPassword == 'c')){
-          // do nothing
-        }else{
+          
+        if((customPassword != 'x') && (customPassword != 'c')){
+
           while(true){
             std::cout << "Devi inserire x o c" << "\n";
             std::cin >> customPassword;
@@ -214,6 +233,7 @@ int main(){
               break;
             }
           }
+        
         }
 
         if (customPassword == 'x'){
@@ -227,10 +247,9 @@ int main(){
 
           std::cout << "Vuoi i numeri? (0/1)" << "\n";
           std::cin >> numbers;
+          
+          if((numbers != true) && (numbers != false)){
 
-          if ((numbers == true)||(numbers == false)){
-            // do nothing
-          }else{
             while(true){
               std::cout << "Devi inserire 0 o 1" << "\n";
               std::cin >> numbers;
@@ -243,9 +262,8 @@ int main(){
           std::cout << "Vuoi i caratteri speciali?" << "\n";
           std::cin >> specialCharacters;
 
-          if ((specialCharacters == true)||(specialCharacters == false)){
-            // do nothing
-          }else{
+          if((specialCharacters != true) && (specialCharacters != false)){
+          
             while(true){
               std::cout << "Devi inserire 0 o 1" << "\n";
               std::cin >> specialCharacters;
@@ -253,10 +271,12 @@ int main(){
                 break;
               }
             }
+        
           }
 
           std::cout << "Vuoi i caratteri alfaNumerici?" << "\n";
           std::cin >> alphaNumericalChars;
+          
 
           if ((alphaNumericalChars == true)||(alphaNumericalChars == false)){
             // do nothing
@@ -264,14 +284,14 @@ int main(){
             while(true){
               std::cout << "Devi inserire 0 o 1" << "\n";
               std::cin >> alphaNumericalChars;
-              if ((alphaNumericalChars == 1)||(alphaNumericalChars == 0)){
+              if ((alphaNumericalChars == true)||(alphaNumericalChars == false)){
                 break;
               }
             }
           }
 
           generatedPassword = generatePassword(passwordLenght, numbers, specialCharacters, alphaNumericalChars);
-          std::cout << "\n--------------------------" << "\n";
+            std::cout << "\n--------------------------" << "\n";
           std::cout << "La password e' stata generata: \n" << generatedPassword << "\n";
           std::cout << "--------------------------" << "\n";
         }
@@ -296,15 +316,15 @@ int main(){
         char yes;
         std::cout << "Vuoi aggiornare la password? y/N" << "\n";
         std::cin >> yes;
-        if (yes == 'y'){
+        if (yes == CONFIRMED){
           dbManager.updatePassword(webAppPwdFor, newPassword);
-        }else if (yes == 'N'){
+        }else if (yes == DECLINED){
           // do nothing
         }else{
           while(true){
             std::cout << "Devi inserire y o N" << "\n";
             std::cin >> yes;
-            if (yes == 'y' || yes == 'N'){
+            if (yes == CONFIRMED || yes == DECLINED){
               break;
             }
           }
@@ -313,18 +333,18 @@ int main(){
     } /*if choice == 3*/
     std::cout << "Desideri fare qualche altra operazione? y/N" << "\n";
     std::cin >> wishToContinue;
-    if ((wishToContinue != 'y')|| (wishToContinue != 'N')){
+    if ((wishToContinue != CONFIRMED) && (wishToContinue != DECLINED)){
       while(true){
         std::cout << "Devi inserire y o N" << "\n";
         std::cin.clear();
         std::cin >> wishToContinue;
-        if ((wishToContinue == 'y')||(wishToContinue == 'N')){
+        if ((wishToContinue == CONFIRMED)||(wishToContinue == DECLINED)){
           break;
         }
       }
     }
     system("clear");
-  } /* while(wishToContinue == 'y') */
+  } /* while(wishToContinue == CONFIRMED) */
 
 }
 
