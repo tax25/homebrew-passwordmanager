@@ -23,9 +23,6 @@ enum SearchPwdChoices{
   SP_THROUGH_DATE = 2
 };
 
-enum UpdatePwdChoices{
-
-};
 int main(){
 
   srand(time(0));
@@ -277,7 +274,6 @@ int main(){
           std::cout << "Vuoi i caratteri alfaNumerici?" << "\n";
           std::cin >> alphaNumericalChars;
           
-
           if ((alphaNumericalChars == true)||(alphaNumericalChars == false)){
             // do nothing
           }else{
@@ -299,15 +295,15 @@ int main(){
         std::cout << "Vuoi aggiornare la password? y/N" << "\n";
 
         std::cin >> yes;
-        if (yes == 'y'){
+        if (yes == CONFIRMED){
           dbManager.updatePassword(webAppPwdFor, generatedPassword);
         }else if (yes == 'N'){
-          // do nothing
+          std::cout << "Ok, la password non e' stata modificata" << std::endl;
         }else{
           while(true){
             std::cout << "Devi inserire y o N" << "\n";
             std::cin >> yes;
-            if (yes == 'y' || yes == 'N'){
+            if (yes == CONFIRMED || yes == DECLINED){
               break;
             }
           }
