@@ -73,7 +73,7 @@ std::string DbManager::createSqlUpdateStatement(std::string name, std::string ne
 
   std::string sqlStatement;
 
-  sqlStatement = "UPDATE PASSWORDS SET PASSWORD = '" + std::string(newPwd) + "'" + " WHERE WEBSITEORAPP = '" + std::string(name) + "'";
+  sqlStatement = "UPDATE PASSWORDS SET PASSWORD = '" + std::string(newPwd) + "'" + " WHERE WEBSITEORAPPNAME = '" + std::string(name) + "'";
 
   return sqlStatement;
 }
@@ -223,6 +223,14 @@ bool DbManager::updatePassword(std::string name, std::string newPassword){
 
   if(exit != SQLITE_OK){
     std::cerr << "Error occured while trying to open db to update it" << "\n";
+    error = true;
+  }else{
+    error = false;
+  }
+  exit = sqlite3_exec(database, sqlUpdateStatement.c_str(), NULL, 0, &errorMessage);
+  if(exit != SQLITE_OK){
+    std::cout << errorMessage << std::endl;
+    sqlite3_free(errorMessage);
     error = true;
   }else{
     error = false;
