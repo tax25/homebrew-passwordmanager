@@ -4,6 +4,8 @@
 
 std::string generatePassword(int pwdLenght, bool nums, bool specialChars, bool alphaNumericalChars);
 char selectCharacterFromString(std::string stringToUse);
+void welcomeUser();
+void showGeneratedPassword(std::string pwdToShow);
 
 #define MIN_PWD_LENGHT 7
 
@@ -60,13 +62,8 @@ int main(){
 
   while(wishToContinue == CONFIRMED){
 
-    std::cout << "--------------------------" << "\n";
-    std::cout << "Welcome to passwordmanager!" << "\n";
-    std::cout << "--------------------------" << "\n";
-    std::cout << "Insert the number connected to what you want to do" << "\n";
-    std::cout << "(1) Create a new password" << "\n";
-    std::cout << "(2) Search for a password" << "\n";
-    std::cout << "(3) Change/Update a password" << "\n";
+    welcomeUser();
+
     std::cin >> choice;
 
     while((choice < MM_CREATE_PASSWORD) || (choice > MM_UPDATE_PASSWORD)){
@@ -105,9 +102,9 @@ int main(){
       if (customPassword == 'x'){
         std::cout << "The generated password will have all characters" << "\n";
         generatedPassword = generatePassword(passwordLenght, true, true, true);
-        std::cout << "--------------------------" << "\n";
-        std::cout << "The password has been generated: \n" <<  generatedPassword << "\n";
-        std::cout << "--------------------------" << "\n";
+        
+        showGeneratedPassword(generatedPassword);
+        
         std::cout << "Do you want to save it in the database? y/N" << "\n";
         char yes;
 
@@ -164,9 +161,9 @@ int main(){
         }
 
         generatedPassword = generatePassword(passwordLenght, numbers, specialCharacters, alphaNumericalChars);
-        std::cout << "\n--------------------------" << "\n";
-        std::cout << "The password has been generated: \n" << generatedPassword << "\n";
-        std::cout << "--------------------------" << "\n";
+       
+        showGeneratedPassword(generatedPassword);
+
         char yes;
         std::cout << "Do you want to save it in the database? y/N" << "\n";
 
@@ -401,4 +398,23 @@ char selectCharacterFromString(std::string stringToUse){
   int randomNumber = (rand() % stringToUse.length());
   char selectedChar = stringToUse[randomNumber];
   return selectedChar;
+}
+
+void welcomeUser(){
+
+    std::cout << "--------------------------" << "\n";
+    std::cout << "Welcome to passwordmanager!" << "\n";
+    std::cout << "--------------------------" << "\n";
+    std::cout << "Insert the number connected to what you want to do" << "\n";
+    std::cout << "(1) Create a new password" << "\n";
+    std::cout << "(2) Search for a password" << "\n";
+    std::cout << "(3) Change/Update a password" << "\n";
+
+}
+void showGeneratedPassword(std::string pwdToShow){
+
+    std::cout << "--------------------------" << "\n";
+    std::cout << "The password has been generated: \n" <<  pwdToShow << "\n";
+    std::cout << "--------------------------" << "\n";
+
 }
